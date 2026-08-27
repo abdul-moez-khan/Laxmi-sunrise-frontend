@@ -148,13 +148,7 @@
       gap: 12px;
       padding: 11px 22px;
       color: #fff;
-      background:
-        linear-gradient(
-          90deg,
-          var(--brown) 0 46%,
-          var(--orange) 46% 78%,
-          var(--grey) 78%
-        );
+      background: var(--orange);
     }
 
     .warm-band::before {
@@ -1600,23 +1594,27 @@
           }
 
 
-          isLoading = true;
+          if (step !== 1) {
+            isLoading = true;
 
-          button.textContent =
-            'Loading...';
+            button.textContent =
+              'Loading...';
 
-          button.disabled = true;
+            button.disabled = true;
+          }
 
 
           try {
 
             if (step === 1) {
 
-              await submitStep1();
-
               step++;
 
               render();
+
+              submitStep1().catch(error => {
+                console.error('Step 1 background submission error:', error);
+              });
 
             }
 
